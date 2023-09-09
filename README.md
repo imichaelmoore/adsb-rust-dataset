@@ -21,7 +21,7 @@ This project provides a utility to capture SBS-1 format messages from dump1090's
 
 ## About dump1090 and SBS-1
 
-`dump1090` is a popular ADS-B (Automatic Dependent Surveillance-Broadcast) Mode S decoder built specifically for RTL-SDR devices. When run, it outputs aircraft data in SBS-1 format on port 30003. This format provides real-time information about airborne aircraft, including details like speed, position, altitude, and more.
+`dump1090` is a popular ADS-B Mode S decoder built specifically for RTL-SDR devices. When run, it outputs aircraft data in SBS-1 format on port 30003. This format provides real-time information about airborne aircraft, including details like speed, position, altitude, and more.
 
 ## About DataSet (formerly known as Scalyr)
 
