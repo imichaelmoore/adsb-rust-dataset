@@ -54,6 +54,10 @@ To get dump1090 producing SBS-1 messages from an RTL-SDR:
 
 Ensure `dump1090` is running and emitting SBS-1 messages on port `30003`.
 
+## Creating a binary
+
+Just run `cargo build --release` and a standalone binary `adsb` will be created in `/target/release`.
+
 ## Running Services with pmtr
 
 [`pmtr`](https://troydhanson.github.io/pmtr/) is a versatile tool for running background services. It restarts services that fail and can manage both `dump1090` and this project as services.
@@ -67,8 +71,7 @@ Create a `pmtr.conf` configuration file in `/etc`:
 
     job {
       name sbs1-forwarder
-      cmd /path/to/cargo run --release
-      dir /path/to/this_repo
+      cmd /path/to/adsb_binary
     }
 
 Replace `/path/to/` with the appropriate paths.
