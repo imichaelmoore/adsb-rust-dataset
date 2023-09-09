@@ -4,6 +4,7 @@ This project provides a utility to capture SBS-1 format messages from dump1090's
 
 ## Table of Contents
 
+- [About ADS-B](#about-adsb)
 - [About dump1090 and SBS-1](#about-dump1090-and-sbs-1)
 - [About DataSet (formerly Scalyr)](#about-dataset-formerly-scalyr)
 - [Setting Up dump1090 with rtl_sdr](#setting-up-dump1090-with-rtl_sdr)
@@ -13,6 +14,10 @@ This project provides a utility to capture SBS-1 format messages from dump1090's
 - [Setting up pmtr as a launchd service](#setting-up-pmtr-as-a-launchd-service)
 - [Contributions](#contributions)
 - [License](#license)
+
+## About ADS-B
+
+*Automatic Dependent Surveillance–Broadcast (ADS-B)* is a surveillance technology in which an aircraft determines its position via satellite navigation and periodically broadcasts it, enabling the aircraft to be tracked. The information can be received by air traffic control ground stations as a replacement for secondary radar. It can also be received by other aircraft, providing situational awareness and potentially allowing for self-separation. ADS-B is an integral part of the NextGen modernization program by the Federal Aviation Administration (FAA), aiming to replace radar-based surveillance and navigation systems. 
 
 ## About dump1090 and SBS-1
 
