@@ -17,7 +17,7 @@ This project provides a utility to capture SBS-1 format messages from dump1090's
 
 ## About ADS-B
 
-*Automatic Dependent Surveillance–Broadcast (ADS-B)* is a surveillance technology in which an aircraft determines its position via satellite navigation and periodically broadcasts it, enabling the aircraft to be tracked. The information can be received by air traffic control ground stations as a replacement for secondary radar. It can also be received by other aircraft, providing situational awareness and potentially allowing for self-separation. ADS-B is an integral part of the NextGen modernization program by the Federal Aviation Administration (FAA), aiming to replace radar-based surveillance and navigation systems. 
+_Automatic Dependent Surveillance–Broadcast (ADS-B)_ is a surveillance technology in which an aircraft determines its position via satellite navigation and periodically broadcasts it, enabling the aircraft to be tracked. The information can be received by air traffic control ground stations as a replacement for secondary radar. It can also be received by other aircraft, providing situational awareness and potentially allowing for self-separation. ADS-B is an integral part of the NextGen modernization program by the Federal Aviation Administration (FAA), aiming to replace radar-based surveillance and navigation systems.
 
 ## About dump1090 and SBS-1
 
@@ -52,12 +52,23 @@ To get dump1090 producing SBS-1 messages from an RTL-SDR:
 
 1. Clone this repository.
 2. If not installed, [install Rust and Cargo](https://www.rust-lang.org/learn/get-started).
-3. Adjust constants in `main.rs` for your setup, especially tokens and DataSet endpoints.
-4. Run:
+3. Compile the project:
 
-   cargo run
+   cargo build --release
 
-Ensure `dump1090` is running and emitting SBS-1 messages on port `30003`.
+This will create a self-contained binary `./target/release/adsb-rust-dataset`.
+
+4. Ensure `dump1090` is running and emitting SBS-1 messages. By default with the `--net` argument, it will emit these messages on port `30003`.
+5. Run the utility via command-line arguments or environment variables:
+
+   - `--dump1090_host` or `DUMP1090_HOST`: Set the dump1090 host. e.g., `--dump1090_host=utilities.33901.cloud` or `DUMP1090_HOST=utilities.33901.cloud`
+   - `--dump1090_port` or `DUMP1090_PORT`: Set the dump1090 port. e.g., `--dump1090_host=30003` or `DUMP1090_HOST=30003`
+   - `--dataset_api_write_token` or `DATASET_API_WRITE_TOKEN`: Specify the API token used to write to DataSet
+
+You can also optionally configure the batch size of how many messages to transmit to DataSet in each batch using the `--batch_size` argument or the `BATCH_SIZE` environment variable. If unset, this defaults to 500.
+
+For example:
+./adsb-rust-dataset --dataset_api_write_token YOUR_TOKEN_HERE --dump1090_host utilities.33901.cloud --dump1090_port 30003 --batch_size 10
 
 ## Creating a binary
 
@@ -132,4 +143,3 @@ Pull requests are welcome! Please ensure that contributions adhere to the curren
 ## License
 
 This code is licensed under the [MIT License](https://github.com/imichaelmoore/adsb-rust-dataset/blob/main/LICENSE).
-
