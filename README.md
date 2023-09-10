@@ -34,11 +34,11 @@ To get dump1090 producing SBS-1 messages from an RTL-SDR:
 1. Ensure you have an RTL-SDR dongle.
 2. Install `dump1090`:
 
-   sudo apt-get install dump1090
+       sudo apt-get install dump1090
 
 3. Run `dump1090` in interactive mode:
 
-   dump1090 --interactive
+       dump1090 --interactive
 
 4. SBS-1 formatted data will be available on port `30003`. Ensure no firewall or other network restrictions block this port.
 
@@ -54,9 +54,9 @@ To get dump1090 producing SBS-1 messages from an RTL-SDR:
 2. If not installed, [install Rust and Cargo](https://www.rust-lang.org/learn/get-started).
 3. Compile the project:
 
-   cargo build --release
+       cargo build --release
 
-This will create a self-contained binary `./target/release/adsb-rust-dataset`.
+   This will create a self-contained binary `./target/release/adsb-rust-dataset`.
 
 4. Ensure `dump1090` is running and emitting SBS-1 messages. By default with the `--net` argument, it will emit these messages on port `30003`.
 5. Run the utility via command-line arguments or environment variables:
@@ -65,10 +65,11 @@ This will create a self-contained binary `./target/release/adsb-rust-dataset`.
    - `--dump1090_port` or `DUMP1090_PORT`: Set the dump1090 port. e.g., `--dump1090_host=30003` or `DUMP1090_HOST=30003`
    - `--dataset_api_write_token` or `DATASET_API_WRITE_TOKEN`: Specify the API token used to write to DataSet
 
-You can also optionally configure the batch size of how many messages to transmit to DataSet in each batch using the `--batch_size` argument or the `BATCH_SIZE` environment variable. If unset, this defaults to 500.
+   You can also optionally configure the batch size of how many messages to transmit to DataSet in each batch using the `--batch_size` argument or the `BATCH_SIZE` environment variable. If unset, this defaults to 500.
 
-For example:
-./adsb-rust-dataset --dataset_api_write_token YOUR_TOKEN_HERE --dump1090_host utilities.33901.cloud --dump1090_port 30003 --batch_size 10
+   For example:
+   
+       ./adsb-rust-dataset --dataset_api_write_token YOUR_TOKEN_HERE --dump1090_host utilities.33901.cloud --dump1090_port 30003 --batch_size 10
 
 ## Creating a binary
 
