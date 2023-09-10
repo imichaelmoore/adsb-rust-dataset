@@ -71,10 +71,6 @@ To get dump1090 producing SBS-1 messages from an RTL-SDR:
    
        ./adsb-rust-dataset --dataset_api_write_token YOUR_TOKEN_HERE --dump1090_host utilities.33901.cloud --dump1090_port 30003 --batch_size 10
 
-## Creating a binary
-
-Just run `cargo build --release` and a standalone binary `adsb` will be created in `/target/release`.
-
 ## Running Services with pmtr
 
 [`pmtr`](https://troydhanson.github.io/pmtr/) is a versatile tool for running background services. It restarts services that fail and can manage both `dump1090` and this project as services.
