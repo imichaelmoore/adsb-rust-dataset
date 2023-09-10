@@ -12,7 +12,7 @@ use crate::parse::{parse, SBS1Message};
 mod parse;
 
 /// Maximum number of SBS-1 messages to collect before sending to the DataSet web service.
-const BATCH_SIZE: usize = 100;
+const BATCH_SIZE: usize = 500;
 
 /// Authentication token for the DataSet web service. Replace with your actual token.
 const TOKEN: &str = "REDACTED";
@@ -77,6 +77,8 @@ async fn send_to_service(messages: Vec<SBS1Message>) -> Result<(), reqwest::Erro
         json!({
             "parser": "adsb",
             "ts": message.timestamp,
+            "source":    "dump1090-fa",
+            "collector": "imichaelmoore/adsb-rust-dataset",
             "sev": 3,
             "attrs": {"message": message, "parser": "adsb"}
         })
@@ -91,8 +93,10 @@ async fn send_to_service(messages: Vec<SBS1Message>) -> Result<(), reqwest::Erro
     });
 
     // Print a pretty version of the JSON payload for debugging.
-    let pretty_json = serde_json::to_string_pretty(&payload).unwrap();
-    println!("{}", pretty_json);
+    // let pretty_json = serde_json::to_string_pretty(&payload).unwrap();
+    // println!("---");
+    // println!("{}", pretty_json);
+    // println!("");
 
     // Send the payload to the DataSet web service.
     let client = reqwest::Client::new();
