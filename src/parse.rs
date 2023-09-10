@@ -91,7 +91,7 @@ pub fn parse(msg: &str) -> Option<SBS1Message> {
             sbs1.flight_id = parse_string(parts.get(5));
             sbs1.generated_date = parse_date_time(parts.get(6), parts.get(7));
             sbs1.logged_date = parse_date_time(parts.get(8), parts.get(9));
-            sbs1.callsign = parse_string(parts.get(10));
+            sbs1.callsign = if parts[10].is_empty() { None } else { Some(String::from(parts[10].trim())) };
             sbs1.altitude = parse_int(parts.get(11));
             sbs1.ground_speed = parse_float(parts.get(12));
             sbs1.track = parse_float(parts.get(13));
