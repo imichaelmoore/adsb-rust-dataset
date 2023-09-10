@@ -127,17 +127,23 @@ async fn send_to_service(messages: Vec<SBS1Message>, dataset_api_write_token: &s
             "source": collector,
             "collector": "imichaelmoore/adsb-rust-dataset",
             "sev": 3,
-            "attrs": {"message": message, "parser": "adsb"}
+            "attrs": {"message": message}
         })
     }).collect();
 
     // Construct the final payload to be sent to the DataSet web service.
     let payload = json!({
         "session": Uuid::new_v4(),
-        "sessionInfo": {},
+        "sessionInfo": {
+            "source": collector,
+            "collector": "imichaelmoore/adsb-rust-dataset",
+        },
         "events": events,
         "threads": []
     });
+
+    // println!("{}", serde_json::to_string_pretty(&payload).unwrap());
+
 
     // Send the payload to the DataSet web service.
     let client = reqwest::Client::new();
