@@ -1,11 +1,9 @@
 //! This module provides functionality to parse and represent SBS1 messages.
 
-extern crate chrono;
-extern crate serde_derive;
+use std::str::FromStr;
 
 use chrono::NaiveDateTime;
-use std::str::FromStr;
-use serde_derive::Serialize;
+use serde::Serialize;
 
 /// Represents a decoded SBS1 message with various aviation-related fields.
 #[derive(Debug, Serialize)]
@@ -30,7 +28,7 @@ pub struct SBS1Message {
     alert: Option<bool>,
     emergency: Option<bool>,
     spi: Option<bool>,
-    on_ground: Option<bool>
+    on_ground: Option<bool>,
 }
 
 impl SBS1Message {
@@ -38,7 +36,8 @@ impl SBS1Message {
     fn new() -> Self {
         let now = std::time::SystemTime::now();
         let since_the_epoch = now.duration_since(std::time::UNIX_EPOCH).unwrap();
-        let timestamp_in_nanos = since_the_epoch.as_secs() * 1_000_000_000 + since_the_epoch.subsec_nanos() as u64;
+        let timestamp_in_nanos =
+            since_the_epoch.as_secs() * 1_000_000_000 + u64::from(since_the_epoch.subsec_nanos());
         let timestamp_in_nanos_as_string = timestamp_in_nanos.to_string();
 
         SBS1Message {
@@ -63,7 +62,7 @@ impl SBS1Message {
             alert: None,
             emergency: None,
             spi: None,
-            on_ground: None
+            on_ground: None,
         }
     }
 }
@@ -81,7 +80,7 @@ pub fn parse(msg: &str) -> Option<SBS1Message> {
     let mut sbs1 = SBS1Message::new();
     let parts: Vec<&str> = msg.trim().split(',').collect();
 
-    match parts.get(0) {
+    match parts.first() {
         Some(&"MSG") => {
             sbs1.message_type = Some("MSG".to_string());
             sbs1.transmission_type = parse_int(parts.get(1));
@@ -91,7 +90,11 @@ pub fn parse(msg: &str) -> Option<SBS1Message> {
             sbs1.flight_id = parse_string(parts.get(5));
             sbs1.generated_date = parse_date_time(parts.get(6), parts.get(7));
             sbs1.logged_date = parse_date_time(parts.get(8), parts.get(9));
-            sbs1.callsign = if parts[10].is_empty() { None } else { Some(String::from(parts[10].trim())) };
+            sbs1.callsign = if parts[10].is_empty() {
+                None
+            } else {
+                Some(String::from(parts[10].trim()))
+            };
             sbs1.altitude = parse_int(parts.get(11));
             sbs1.ground_speed = parse_float(parts.get(12));
             sbs1.track = parse_float(parts.get(13));
@@ -104,8 +107,8 @@ pub fn parse(msg: &str) -> Option<SBS1Message> {
             sbs1.spi = parse_bool(parts.get(20));
             sbs1.on_ground = parse_bool(parts.get(21));
             Some(sbs1)
-        },
-        _ => None
+        }
+        _ => None,
     }
 }
 
@@ -116,10 +119,7 @@ fn parse_string(opt: Option<&&str>) -> Option<String> {
 
 /// Parses a string representation of a boolean (by integer) into an `Option<bool>`.
 fn parse_bool(opt: Option<&&str>) -> Option<bool> {
-    match opt {
-        Some(s) => i32::from_str(s).ok().map(|num| num != 0),
-        None => None,
-    }
+    opt.and_then(|s| i32::from_str(s).ok().map(|num| num != 0))
 }
 
 /// Converts an `Option<&&str>` into an `Option<i32>`.
@@ -144,7 +144,7 @@ fn parse_float(opt: Option<&&str>) -> Option<f32> {
 /// An `Option` that contains a `NaiveDateTime` if successful or `None` otherwise.
 fn parse_date_time(opt_date: Option<&&str>, opt_time: Option<&&str>) -> Option<NaiveDateTime> {
     if let (Some(&date), Some(&time)) = (opt_date, opt_time) {
-        let combined = format!("{} {}", date, time);
+        let combined = format!("{date} {time}");
         NaiveDateTime::parse_from_str(&combined, "%Y/%m/%d %H:%M:%S").ok()
     } else {
         None
