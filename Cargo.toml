@@ -3,21 +3,22 @@ name = "adsb"
 version = "0.1.0"
 edition = "2021"
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
-
 [dependencies]
-crate = "*"
-chrono = { version = "*", features = ["serde"] }
-serde = "1.0"
+chrono = { version = "0.4", features = ["serde"] }
+reqwest = { version = "0.12", features = ["json"] }
+serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
-serde_derive = "1.0"
-reqwest = { version = "0.11", features = ["json"] }
-uuid = { version = "0.8", features = [
-    "v4",
-    "serde",
-] } # For generating and using UUIDs
 tokio = { version = "1", features = ["full"] }
+uuid = { version = "1.0", features = ["v4", "serde"] }
 
 [[bin]]
 name = "adsb-rust-dataset"
 path = "src/main.rs"
+
+[lints.rust]
+unsafe_code = "forbid"
+
+[lints.clippy]
+all = { level = "warn", priority = -1 }
+pedantic = { level = "warn", priority = -1 }
+module_name_repetitions = "allow"
